@@ -1,0 +1,88 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+.venv/
+venv/
+env/
+ENV/
+
+# Environment Variables
+.env
+
+# Streamlit
+.streamlit/secrets.toml
+
+# IDE
+.vscode/
+.idea/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary Files
+*.tmp
+*.temp
+
+# Uploads
+uploads/*
+!uploads/.gitkeep
+
+# Vector Database
+vector_db/*
+!vector_db/.gitkeep
+
+# FAISS Files
+*.faiss
+*.pkl
+*.index
+
+# OCR Cache
+ocr_cache/
+
+# Model Cache
+.cache/
+huggingface_cache/
+
+# Python Packaging
+build/
+dist/
+*.egg-info/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Render
+.render/
+
+# Local Database
+*.db
+*.sqlite3
+
+# PDF Files
+*.pdf
+
+# Images
+*.png
+*.jpg
+*.jpeg
+*.webp
+
+# Backup Files
+*.bak
+*.old
+
+# Mac/Linux
+*.swp
+*.swo

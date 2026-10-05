@@ -1,0 +1,1 @@
+AI-powered Tender Analysis and Bid Preparation Assistant
