@@ -17,7 +17,7 @@ if not api_key:
 genai.configure(api_key=api_key)
 
 # Model
-model = genai.GenerativeModel("gemini-2.5-flash-lite")
+model = genai.GenerativeModel("gemini-3.8-flash")
 # UI
 st.set_page_config(
     page_title="AI Tender Assistant",
