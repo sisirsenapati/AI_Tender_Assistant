@@ -1,17 +1,32 @@
 import streamlit as st
 from pypdf import PdfReader
 import google.generativeai as genai
-
-import os
 from dotenv import load_dotenv
+import os
 
+# Load Environment Variables
 load_dotenv()
-# API KEY
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
+api_key = os.getenv("GEMINI_API_KEY")
+
+if not api_key:
+    st.error("GEMINI_API_KEY not found.")
+    st.stop()
+
+# Configure Gemini
+genai.configure(api_key=api_key)
+
+# Model
 model = genai.GenerativeModel("gemini-3.8-flash")
+# UI
+st.set_page_config(
+    page_title="AI Tender Assistant",
+    page_icon="📄",
+    layout="wide"
+)
 
-st.title("AI Tender Assistant")
+st.title("📄 AI Tender Assistant")
+st.write("Upload a Tender PDF and get instant AI analysis.")
 
 uploaded_file = st.file_uploader(
     "Upload Tender PDF",
@@ -20,33 +35,43 @@ uploaded_file = st.file_uploader(
 
 if uploaded_file:
 
-    reader = PdfReader(uploaded_file)
+    try:
+        reader = PdfReader(uploaded_file)
 
-    text = ""
+        text = ""
 
-    for page in reader.pages:
-        text += page.extract_text()
+        for page in reader.pages:
+            text += page.extract_text() or ""
 
-    st.success("Tender Loaded")
+        st.success("Tender PDF Loaded Successfully")
 
-    if st.button("Analyze Tender"):
+        if st.button("Analyze Tender"):
 
-        prompt = f"""
-        Analyze this tender.
+            with st.spinner("Analyzing Tender..."):
 
-        Extract:
+                prompt = f"""
+                Analyze the following tender document.
 
-        1. Tender Summary
-        2. Eligibility Criteria
-        3. EMD
-        4. Completion Period
-        5. Important Dates
-        6. Risk Factors
+                Provide:
 
-        Tender:
-        {text[:50000]}
-        """
+                1. Tender Summary
+                2. Eligibility Criteria
+                3. EMD Details
+                4. Completion Period
+                5. Important Dates
+                6. Risk Factors
+                7. Key Recommendations
 
-        response = model.generate_content(prompt)
+                Tender Document:
 
-        st.write(response.text)
+                {text[:50000]}
+                """
+
+                response = model.generate_content(prompt)
+
+                st.subheader("Tender Analysis")
+
+                st.markdown(response.text)
+
+    except Exception as e:
+        st.error(f"Error: {str(e)}")
